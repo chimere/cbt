@@ -1,0 +1,82 @@
+<form class="form-search" >
+  <input type="text" placeholder="Search" class="input-medium search-query" id="search_tree" >
+</form>
+<div style="float: left;margin-bottom: 10px;">
+  <div class="btn-group"  style = "margin: 0 5px 0 0;float: left;" >
+    <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+      <i class="icon-plus"></i>เพิ่ม
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li><a href="javascript:void(0);" onclick="getFormAddTree(0)"><i class="icon-folder-close"></i> โฟลเดอร์</a></li>
+      <li><a href="javascript:void(0);" onclick="getFormAddTree(1)"><i class="icon-file"></i> ชุดข้อสอบ</a></li>
+    </ul>
+  </div>
+  <%= link_to raw("<i class=\"icon-edit\"></i>แก้ไข"), "javascript:void(0)", :onclick => "getFormEditTree()", :class => "btn btn-small disabled", :disabled=>"disabled", :id => "btn_edit_tree" %>
+</div>
+<div style="clear: both;"></div>
+<script>
+  function getFormAddTree(lf){
+    var sl = $("#tree").jqxTree("selectedItem");
+    var data = {
+      format: "js"
+      ,parent_id: ""
+      ,current_id: ""
+      ,current_leaf: ""
+      ,leaf: lf
+    }
+    if (sl != undefined && sl != null){
+      data = {
+        format: "js"
+        ,parent_id: sl.parentId
+        ,current_id: sl.id
+        ,current_leaf: sl.leaf
+        ,leaf: lf
+      }
+    }
+    $.ajax({
+        type: 'POST',
+        url: category_new_path,
+        data: data
+    });
+  }  
+  function getFormEditTree(){
+    var sl = $("#tree").jqxTree("selectedItem");
+    var data = {}
+    if (sl != undefined && sl != null){
+      data = {
+        format: "js"
+        ,parent_id: sl.parentId
+        ,current_id: sl.id
+        ,current_leaf: sl.leaf
+        ,leaf: lf
+        ,id: sl.id
+      }
+    }
+    $.ajax({
+        type: 'POST',
+        url: category_new_path,
+        data: data
+    });
+  }
+  
+  
+  $('#search_tree').keyup(function() {
+    if( $.trim($(this).val()) != "") {
+      $("#tree").jqxTree("expandAll");
+      $("#tree li").css("display","block");
+      $("#tree li").filter(function (index) {
+        rg = new RegExp($("#search_tree").val());
+        return !rg.test($(this).text());
+      }).css("display","none");
+    }
+    else{
+      $("#tree li").css("display","block");
+      $("#tree").jqxTree("collapseAll");
+      var sl = $("#tree").jqxTree("selectedItem");
+      if (sl != undefined && sl != null){
+        $('#tree').jqxTree('expandItem', sl.element);
+      }
+    }
+  });
+</script>

@@ -1,0 +1,19 @@
+$("#form_tree").html('<%= j render :partial => "form_tree", :locals => {:data => @category, :url => category_update_path} %>');
+<% if @category.leaf.to_s  == "1" %>
+$("#title_form_tree").html("เพิ่มชุดข้อสอบ");
+$("#add_edit_tree").modal('show').css({
+    width: '940',
+    'margin-left': function () {
+        return -($(this).width() / 2);
+    }
+});
+<% end %>
+<% if @category.leaf.to_s  == "0" %>
+$("#title_form_tree").html("เพิ่มโฟลเดอร์ ");
+$("#add_edit_tree").modal('show').css({
+    width: '560',
+    'margin-left': function () {
+        return -($(this).width() / 2);
+    }
+});
+<% end %>

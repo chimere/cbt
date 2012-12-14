@@ -1,0 +1,72 @@
+<% if data.leaf.to_s  == "0" %>
+  <%= simple_form_for data, :url => url,  :method => "post", :html => { :class => 'form-horizontal' }, :remote => true do |f| %>
+    <fieldset>
+      <%= f.input :name, :label => "ชื่อ" %>
+      <%= f.input :leaf, :as => :hidden %>
+      <%= f.input :parent_id, :as => :hidden %>
+      <input name="current_id" value="<%= params[:current_id] %>" type="hidden">
+    </fieldset>
+  <% end %>
+<% end %>
+<% if data.leaf.to_s  == "1" %>
+  <%= simple_form_for data, :url => url,  :method => "post", :html => { :class => 'form-horizontal' }, :remote => true do |f| %>
+    <fieldset>
+      <%= f.input :leaf, :as => :hidden %>
+      <%= f.input :parent_id, :as => :hidden %>
+      <%= f.simple_fields_for  :examinations do |ex| %>
+        <div class="accordion" id="accordion_form_tree">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_form_tree" href="#collapseOne">รายละเอียดชุดข้อสอบ </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <div style="float: left;">
+                  <%= f.input :name, :label => "ชื่อ" %>
+                  <%= ex.input :ex_code, :label => "รหัสวิชา" %>
+                  <%= ex.input :ex_type, :collection => [["ความจำ","1"],["ทั่วไป","2"]], :label => "ชนิดข้อสอบ" %>
+                  <%= ex.input :eval_type, :collection => [["ความถนัด","1"],["วิภาววิสัย","2"]], :label => "การประเมิน" %>
+                  <%= ex.input :used, :collection => [["แบบทดสอบสมบรูณ์","1"],["แบบทดสอบทดลองใช้","0"]], :label => "การนำไปใช้" %>
+                  <%= ex.input :score_type, :collection => [["ถูกผิด","1"],["อันตรภาคชั้น","2"]], :label => "การให้คะแนน" %>
+                  <%= ex.input :num_choice, :label => "จำนวนตัวเลือก" %>
+                  <div style="float: left;"><%= ex.input :score_min, :label => "ช่วงคะแนน", :input_html => {:style => "width: 50px;"} %></div>
+                  <div style="float: left;margin: 2px 5px 0 5px;font-size: 20px;"><b>-</b></div>
+                  <div style="float: left;"><%= ex.input :score_max, :label => false, :input_html => {:style => "width: 50px;margin-left: -180px;"} %></div>
+                  <div style="clear: both;"></div>
+                  <%= ex.input :choice_lang, :collection => [["ไทย","1"],["อังกฤษ","2"]], :label => "ภาษาตัวเลือก" %>
+                </div>
+                <div style="float: left;">
+                  <%= ex.input :timer_type, :collection => [["กำหนดแต่ละข้อ","1"],["กำหนดทั้งชุด","2"]], :label => "ประเภทเวลา" %>
+                  <%= ex.input :duration, :label => "ระยะเวลา" %>
+                  <%= ex.input :skip, :collection => [["ได้","1"],["ไม่ได้","0"]], :label => "ข้ามข้อ" %>
+                  <%= ex.input :back, :collection => [["ได้ แต่แก้ไขไม่ได้","1"],["ได้ แก้ไขได้","2"],["ไม่ได้","3"]], :label => "การย้อนกลับ" %>
+                  <%= ex.input :change, :collection => [["เลือกคำตอบแล้วเปลี่ยนข้อ","1"],["กดยืนยันแล้วเปลี่ยนข้อ","2"]], :label => "การเปลี่ยนข้อ" %>
+                  <%= ex.input :display_time, :collection => [["แสดงเวลา","1"],["ไม่แสดงเวลา","0"]], :label => "การแสดงเวลา" %>
+                  <%= ex.input :display_answer, :collection => [["แสดงคำตอบ","1"],["ไม่แสดงคำตอบ","0"]], :label => "การแสดงคำตอบ" %>
+                  <%= ex.input :finish_condition, :collection => [["หยุดข้อสอบทันที","1"],["เตือนแล้วทำต่อ","2"]], :label => "เมื่อหมดเวลา" %>
+                  <%= ex.input :finish_text, :label => "ข้อความเตือนเมื่อหมดเวลา", :input_html => {:style => "height: 80px" } %>
+                  
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion_form_tree" href="#collapseTwo">คำชี้แจ้ง</a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <%= ex.label "คำชี้แจ้ง", :style => "text-align: left;margin-left:60px;" %>
+                <%= ex.input :explanation, :input_html => {:class => "tinymce", :style => "width: 840px;height: 300px;"}, :label => false, :wrapper_html => {:style => "margin-left: -168px;"}   %>                
+              </div>
+            </div>
+          </div>    
+        </div>      
+      <% end %>
+      <input name="current_id" value="<%= params[:current_id] %>" type="hidden">
+    </fieldset>
+  <% end %>
+<% end %>
+
+

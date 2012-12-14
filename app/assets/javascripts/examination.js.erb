@@ -1,0 +1,40 @@
+$(function() {
+    loadTree();
+});
+function loadTree(select){
+    $.ajax({
+        type: 'POST',
+        url: category_data_path,
+        success: function(data, textStatus, jqXHR)  {
+            var source ={
+                datatype: "json",
+                datafields: [
+                    { name: 'id' },
+                    { name: 'parentid' },
+                    { name: 'label' },
+                    { name: 'icon' },
+                    { name: 'leaf' }
+                ],
+                id: 'id',
+                localdata: data
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            dataAdapter.dataBind();
+            var records = dataAdapter.getRecordsHierarchy('id', 'parentid', 'items', 'label','icon','leaf');
+            $("#tree").jqxTree("clear");
+            $('#tree').jqxTree({ source: records });
+            $('#tree').bind('select', function (event) {
+                var args = event.args;
+                var item = $('#tree').jqxTree('getItem', args.element);
+                $("#btn_edit_tree").removeClass("disabled");
+                $("#btn_edit_tree").attr("disabled",false);
+            });
+            if(select != undefined){
+                $('#tree').jqxTree('selectItem', $(select)[0]);
+                it = $('#tree').jqxTree('getItem', $(select)[0]);
+                $('#tree').jqxTree('expandItem', $(select)[0]);
+            }
+        },
+        dataType: "json"
+    });
+}

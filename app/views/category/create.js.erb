@@ -1,0 +1,7 @@
+<% if params[:current_id].to_s.strip != "" %>
+    loadTree("#<%= params[:current_id] %>");
+<% else %>
+    loadTree();
+<% end %>
+$('#add_edit_tree').modal('hide');
+

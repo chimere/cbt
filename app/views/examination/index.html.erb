@@ -1,0 +1,24 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag    "jqwidgets/jqwidgets/styles/jqx.base", :media => "all" %>
+  <%= javascript_include_tag "jqwidgets/jqwidgets/jqxcore" %>
+  <%= javascript_include_tag "jqwidgets/jqwidgets/jqxdata" %>
+  <%= javascript_include_tag "jqwidgets/jqwidgets/jqxbuttons" %>
+  <%= javascript_include_tag "jqwidgets/jqwidgets/jqxscrollbar" %>
+  <%= javascript_include_tag "jqwidgets/jqwidgets/jqxpanel" %>
+  <%= javascript_include_tag "jqwidgets/jqwidgets/jqxtree" %>
+  <%= javascript_include_tag params[:controller] %>
+  <script type="text/javascript">
+    var category_data_path = "<%= url_for(:category_data) %>"
+    var category_new_path = "<%= url_for(:category_new) %>"
+    var category_edit_path = "<%= url_for(:category_edit) %>"
+  </script>
+<% end %>
+<!--Form Tree-->
+<%= render :partial => "modal_tree" %>
+<div class="row">
+  <div class="span3 well" >
+    <%= render :partial => "menu_tree" %>
+    <div id='tree' style="overflow: auto;"></div>
+  </div>
+  <div class="span8 well"></div>
+</div>

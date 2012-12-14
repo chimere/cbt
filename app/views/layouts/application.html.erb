@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ศูนย์ทดสอบ</title>
+  <meta charset="utf-8">
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <!--[if lt IE 9]>
+    <%= javascript_include_tag "html5shiv/dist/html5shiv" %>
+  <![endif]-->
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= yield :head %>
+</head>
+<body>
+  
+<div class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">Some Store</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><a>1</a></li>
+          <li><a>2</a></li>
+          <li><a>3</a></li>
+          <li><a>4</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+<%= yield %>  
+</div>
+</body>
+</html>
